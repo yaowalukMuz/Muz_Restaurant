@@ -11,11 +11,24 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Explicit
+    private UserTABLE objUserTABLE;
+    private FoodTABLE objFoodTABLE;
+    private OrderTABLE objOrderTABLE;
+    private SaleTABLE objSaleTABLE;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        connectedSQLite();
+
+        //Test Add Value
+        testAddValue();
+
+       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -25,7 +38,21 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
+    }// OnCreate --> Main class
+
+    private void connectedSQLite(){
+        objUserTABLE = new UserTABLE(this);
+        objFoodTABLE = new FoodTABLE(this);
+        objOrderTABLE = new OrderTABLE(this);
+        objSaleTABLE = new SaleTABLE(this);
+    }
+
+    private void testAddValue(){
+        objUserTABLE.addNameUser("testUser", "pass", "Yaowaluk");
+        objFoodTABLE.addNewFood("TomYumKong","SourceA","500.-");
+        objOrderTABLE.addNewOrder("Officer1", "testDesk", "testFood", "testItem");
+
     }
 
     @Override
