@@ -2,6 +2,7 @@ package com.hitachi_tstv.yodpanom.yaowaluk.muzrestaurant;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 /**
@@ -30,6 +31,33 @@ public class FoodTABLE {
         objContentValues.put(COLUM_SOURCE , strSource);
         objContentValues.put(COLUM_PRICE,strPrice);
         return readSqLiteDatabase.insert(FOOD_TABLE,null,objContentValues);
+    }
+
+    public String[] readAllFood(int intColumn){
+        String[] strReadAll = null;
+        Cursor objCursor = readSqLiteDatabase.query(FOOD_TABLE,
+                new String[]{COLUM_ID_FOOD, COLUM_FOOD, COLUM_SOURCE, COLUM_PRICE},
+                null, null, null, null, null);
+        if (objCursor != null) {
+            objCursor.moveToFirst();
+            strReadAll = new String[objCursor.getCount()];
+            for (int i = 0; i<=objCursor.getCount();i++) {
+                switch (intColumn) {
+                    case 1:
+                        strReadAll[i] = objCursor.getString(objCursor.getColumnIndex(COLUM_FOOD));
+                        break;
+                    case 2:
+                        strReadAll[i] = objCursor.getString(objCursor.getColumnIndex(COLUM_SOURCE));
+                        break;
+                    case 3:
+                        strReadAll[i] = objCursor.getString(objCursor.getColumnIndex(COLUM_PRICE));
+                        break;
+                }
+                objCursor.moveToNext();
+            }
+        }
+
+        return strReadAll;
     }
 
 }// Main class
